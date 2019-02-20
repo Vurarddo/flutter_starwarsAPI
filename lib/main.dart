@@ -31,15 +31,15 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   AnimationController c;
   Animation<double> anim;
+  List<Person> articles = [];
 
   @override
   void initState() {
-    ArticleApi.getArticle().then((SwapiResponse articles) => print(articles));
+    ArticleApi.getArticle().then((SwapiResponse responseArticles) =>
+        articles = responseArticles.results.toList());
     c = AnimationController(duration: Duration(minutes: 20), vsync: this);
-    anim = Tween<double>(begin: 0, end: 100).animate(CurvedAnimation(
-      parent: c,
-      curve: Curves.bounceOut
-    ));
+    anim = Tween<double>(begin: 0, end: 100)
+        .animate(CurvedAnimation(parent: c, curve: Curves.bounceOut));
     super.initState();
   }
 
@@ -73,6 +73,9 @@ class _MyHomePageState extends State<MyHomePage>
                     color: Colors.indigo,
                   ),
                 ),
+                Column(
+                    children:
+                        articles.map((article) => Text(article.name)).toList())
               ],
             );
           }),

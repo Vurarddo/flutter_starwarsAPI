@@ -1,10 +1,11 @@
-import 'dart:collection';
-
 import 'package:swapi/models/swapi_response.dart';
-import 'package:meta/meta.dart';
+import 'package:swapi/api/article.dart';
 
-@immutable
 class PersonListState {
-  List<Person> _personList = [];
+  List<Person> personList = [];
 
+  Future<void> personListArticle() async {
+    SwapiResponse responsePersons = await ArticleApi.getArticle();
+    personList = responsePersons.results.toList();
+  }
 }

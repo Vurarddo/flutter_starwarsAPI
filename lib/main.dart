@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:swapi/api/article.dart';
+import 'package:swapi/models/person_list_bloc_provider.dart';
+import 'package:swapi/models/swapi_bloc.dart';
 import 'package:swapi/models/swapi_response.dart';
 
 void main() => runApp(MyApp());
@@ -8,12 +9,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return PersonListBlocProvider(
+      personBloc: PersonBloc(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -31,12 +35,9 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   AnimationController c;
   Animation<double> anim;
-  List<Person> articles = [];
 
   @override
   void initState() {
-    ArticleApi.getArticle().then((SwapiResponse responseArticles) =>
-        articles = responseArticles.results.toList());
     c = AnimationController(duration: Duration(minutes: 20), vsync: this);
     anim = Tween<double>(begin: 0, end: 100)
         .animate(CurvedAnimation(parent: c, curve: Curves.bounceOut));
@@ -45,6 +46,8 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
+    final personListBlocProvider = PersonListBlocProvider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -73,9 +76,23 @@ class _MyHomePageState extends State<MyHomePage>
                     color: Colors.indigo,
                   ),
                 ),
-                Column(
-                    children:
-                        articles.map((article) => Text(article.name)).toList())
+                StreamBuilder<List<Person>>(
+                  stream: personListBlocProvider.personBloc.personListStream,
+                  builder: (context, snapshot) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, i) {
+                        return ListTile(
+                          title: Text(
+                            '${snapshot.data[i].name}',
+                            style: Theme.of(context).textTheme.display1,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                )
               ],
             );
           }),
@@ -85,6 +102,10 @@ class _MyHomePageState extends State<MyHomePage>
             c.reset();
             c.forward();
           }
+
+          final personListBlocProvider = PersonListBlocProvider.of(context);
+
+          personListBlocProvider.personBloc.person.add(null);
         },
         child: Icon(Icons.add),
       ),

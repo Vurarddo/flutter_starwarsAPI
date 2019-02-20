@@ -40,3 +40,6 @@ abstract class Person implements Built<Person, PersonBuilder> {
   Person._();
   factory Person([updates(PersonBuilder b)]) = _$Person;
 }
+
+
+// TODO: посмотреть что приходит в flims etc и сделать модель как с Person

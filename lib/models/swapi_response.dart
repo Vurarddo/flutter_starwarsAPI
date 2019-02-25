@@ -1,6 +1,8 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:swapi/models/person_response.dart';
+import 'package:swapi/models/films_response.dart';
 
 part 'swapi_response.g.dart';
 
@@ -9,37 +11,35 @@ abstract class SwapiResponse
   static Serializer<SwapiResponse> get serializer => _$swapiResponseSerializer;
 
   BuiltList<Person> get results;
+  // BuiltList<Films> get filmResults;
 
   SwapiResponse._();
   factory SwapiResponse([updates(SwapiResponseBuilder b)]) = _$SwapiResponse;
 }
 
-abstract class Person implements Built<Person, PersonBuilder> {
-  static Serializer<Person> get serializer => _$personSerializer;
+// abstract class Person implements Built<Person, PersonBuilder> {
+//   static Serializer<Person> get serializer => _$personSerializer;
 
-  String get name;
+//   String get name;
 
-  @nullable
-  String get heigth;
+//   @nullable
+//   String get heigth;
 
-  @nullable
-  String get mass;
+//   @nullable
+//   String get mass;
 
-  @nullable
-  String get hairColor;
-  //@BuiltValueField(asd: 'first_name')
-  // String get firstName;
+//   @nullable
+//   String get hairColor;
+//   //@BuiltValueField(asd: 'first_name')
+//   // String get firstName;
 
-  // List films;
-  // List species;
-  // List vehicles;
-  // List starships;
-  String get created;
-  String get edited;
+//   // List films;
+//   // List species;
+//   // List vehicles;
+//   // List starships;
+//   String get created;
+//   String get edited;
 
-  Person._();
-  factory Person([updates(PersonBuilder b)]) = _$Person;
-}
-
-
-// TODO: посмотреть что приходит в flims etc и сделать модель как с Person
+//   Person._();
+//   factory Person([updates(PersonBuilder b)]) = _$Person;
+// }

@@ -15,4 +15,8 @@ class ArticleApi {
     Response<Map<String, dynamic>> response = await artilceClient.get('/people');
     return standardSerializers.deserializeWith<SwapiResponse>(SwapiResponse.serializer, response.data);
   }
+  // static Future<SwapiResponse> getFilms() async {
+  //   Response<Map<String, dynamic>> response = await artilceClient.get('/films');
+  //   return standardSerializers.deserializeWith<SwapiResponse>(SwapiResponse.serializer, response.data);
+  // }
 }

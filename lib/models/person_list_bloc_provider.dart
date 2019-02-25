@@ -7,6 +7,7 @@ class PersonListBlocProvider extends InheritedWidget {
 
   final Widget child;
   final PersonBloc personBloc;
+  // final FilmBloc filmBloc;
 
   static PersonListBlocProvider of(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(PersonListBlocProvider)as PersonListBlocProvider);

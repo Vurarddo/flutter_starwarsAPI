@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:swapi/models/person_list_bloc_provider.dart';
 import 'package:swapi/models/swapi_bloc.dart';
+import 'package:swapi/models/person_response.dart';
 import 'package:swapi/models/swapi_response.dart';
+import 'package:swapi/models/films_response.dart';
 
 void main() => runApp(MyApp());
 
@@ -57,28 +59,31 @@ class _MyHomePageState extends State<MyHomePage>
           builder: (context, _) {
             return Column(
               children: <Widget>[
-                Transform.rotate(
-                  // offset: Offset(anim.value, anim.value * 1.5),
-                  angle: anim.value * anim.value,
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.amberAccent,
-                  ),
-                ),
-                Transform.scale(
-                  // offset: Offset(anim.value, anim.value * 1.5),
-                  // angle: anim.value,
-                  scale: anim.value / 50,
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.indigo,
-                  ),
-                ),
+                // Transform.rotate(
+                //   // offset: Offset(anim.value, anim.value * 1.5),
+                //   angle: anim.value * anim.value,
+                //   child: Container(
+                //     width: 100,
+                //     height: 100,
+                //     color: Colors.amberAccent,
+                //   ),
+                // ),
+                // Transform.scale(
+                //   // offset: Offset(anim.value, anim.value * 1.5),
+                //   // angle: anim.value,
+                //   scale: anim.value / 50,
+                //   child: Container(
+                //     width: 100,
+                //     height: 100,
+                //     color: Colors.indigo,
+                //   ),
+                // ),
                 StreamBuilder<List<Person>>(
                   stream: personListBlocProvider.personBloc.personListStream,
                   builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container();
+                    }
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: snapshot.data.length,
@@ -86,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage>
                         return ListTile(
                           title: Text(
                             '${snapshot.data[i].name}',
-                            style: Theme.of(context).textTheme.display1,
+                            // style: Theme.of(context).textTheme.display1,
                           ),
                         );
                       },
